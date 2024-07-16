@@ -1,0 +1,11 @@
+- name: lamp server installation
+  hosts: all
+  become: true
+  tasks:
+    - name: apache install
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: yes
+        state: present
+      notify: 
+        - restart apache2
