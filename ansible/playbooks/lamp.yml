@@ -7,6 +7,8 @@
         name: apache2
         update_cache: yes
         state: present
+      notify: 
+        - restart apache2
     - name: install php
       ansible.builtin.apt:
         name:
@@ -17,7 +19,10 @@
       ansible.builtin.copy:
         src: info.php
         dest: /var/www/html/info.php
+      notify: 
+        - restart apache2
+  handlers:
     - name: apache service restart
       ansible.builtin.service:
         name: apache2
-        state: restarted
+        state: restart
