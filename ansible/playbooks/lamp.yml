@@ -1,0 +1,23 @@
+- name: lamp server installation
+  hosts: all
+  become: true
+  tasks:
+    - name: apache install
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: yes
+        state: present
+    - name: install php
+      ansible.builtin.apt:
+        name:
+          - php
+          - libapache2-mod-php
+        state: present
+    - name: copy php info.php
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+    - name: apache service restart
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
