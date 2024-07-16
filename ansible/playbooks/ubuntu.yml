@@ -1,3 +1,4 @@
+---
 - name: lamp server installation
   hosts: all
   become: true
@@ -22,7 +23,7 @@
       notify: 
         - restart apache2
   handlers:
-    - name: apache service restart
+    - name: restart apache2
       ansible.builtin.service:
         name: apache2
         state: restart
