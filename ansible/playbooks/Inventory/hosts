@@ -1,8 +1,8 @@
 [ubuntu]
-172.31.21.52 package_name=apache2
+172.31.21.52
 
 [redhat]
-172.31.90.70 package_name=httpd
+172.31.90.70
 
 [webserver]
 172.31.21.52
