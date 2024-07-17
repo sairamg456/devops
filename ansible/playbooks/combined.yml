@@ -5,6 +5,10 @@
   vars:
     info_php_path: /var/www/html/info.php
   tasks:
+    - name: massage if this playbook being executed 
+      ansible.builtin.fail: 
+        msg: this playbook is designed to run for Ubuntu and RedHat
+      when: ansible_facts['distribution'] != "Ubuntu" and ansible_facts['distribution'] != "RedHat"
     - name: install httpd
       ansible.builtin.package:
         name: "{{ package_name }}"
