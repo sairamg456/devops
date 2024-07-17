@@ -1,0 +1,4 @@
+package_name: apache2
+php_packages:
+  - php
+  - libapache2-mod-php
