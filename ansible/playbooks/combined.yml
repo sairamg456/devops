@@ -15,26 +15,18 @@
         enabled: yes
         state: started
     - name: install php
-      ansible.builtin.yum:
-        name:
-          - php
+      ansible.builtin.package:
+        name: "{{ item }}"
         state: present
-      when: ansible_facts['os_family'] == 'RedHat'
+      loop: "{{ php_packages }}"
       notify: 
         - restart apache
     - name: copy info php
       ansible.builtin.copy:
         src: info.php
         dest: "{{ info_php_path }}"
-      notify: 
+      notify:
         - restart apache
-    - name: install php
-      ansible.builtin.apt:
-        name:
-          - php
-          - libapache2-mod-php
-        state: present
-      when: ansible_facts['os_family'] == 'Ubuntu'
   handlers:
     - name: restart apache
       ansible.builtin.service:
