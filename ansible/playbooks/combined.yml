@@ -5,12 +5,12 @@
     info_page_path: /var/www/html/info.php
   become: true
   tasks:
-    - name: install apache server
+    - name: install httpd server
       yum:
         name: "{{ pakage_name }}"
         state: present
       when: ansible_facts ['os_family'] == 'RedHat'
-    - name: enable and start apache
+    - name: enable and start httpd
       ansible.builtin.systemd:
         name: "{{ package_name }}"
         enabled: yes
@@ -55,6 +55,6 @@
       when: ansible_facts ['os_family'] == 'Ubuntu'
   handlers:
     - name: restart apache
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: "{{ package_name }}"
         state: restarted
