@@ -1,6 +1,6 @@
 ---
 - name: install lamp server in radhat
-  hosts: redhat
+  hosts: ubuntu
   become: true
   tasks:
     - name: install apache server
