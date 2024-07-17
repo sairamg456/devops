@@ -6,16 +6,14 @@
     info_php_path: /var/www/html/info.php
   tasks:
     - name: install apache server
-      ansible.builtin.yum:
+      ansible.builtin.package:
         name: "{{ package_name }}"
         state: present
-      when: ansible_facts['os_family'] == 'RedHat'
     - name: enable and start apache
       ansible.builtin.systemd:
         name: "{{ package_name }}"
         enabled: yes
         state: started
-      when: ansible_facts['os_family'] == 'RedHat'
     - name: install php
       ansible.builtin.yum:
         name:
@@ -28,15 +26,6 @@
       ansible.builtin.copy:
         src: info.php
         dest: "{{ info_php_path }}"
-      when: ansible_facts['os_family'] == 'RedHat'
-      notify: 
-        - restart apache
-    - name: apache install
-      ansible.builtin.apt:
-        name: "{{ package_name }}"
-        update_cache: yes
-        state: present
-      when: ansible_facts['os_family'] == 'Ubuntu'
       notify: 
         - restart apache
     - name: install php
@@ -46,13 +35,6 @@
           - libapache2-mod-php
         state: present
       when: ansible_facts['os_family'] == 'Ubuntu'
-    - name: copy php info.php
-      ansible.builtin.copy:
-        src: info.php
-        dest: "{{ info_php_path }}"
-      when: ansible_facts['os_family'] == 'Ubuntu'
-      notify: 
-        - restart apache
   handlers:
     - name: restart apache
       ansible.builtin.service:
