@@ -1,8 +1,8 @@
 [ubuntu]
-172.31.21.52 package_name=apache2 php_packages= '["php", "libapache2-mod-php", "php-mysql"]'
+172.31.21.52 package_name=apache2
 
 [redhat]
-172.31.90.70 package_name=httpd php_packages= '["php"]'
+172.31.90.70 package_name=httpd
 [webserver]
 172.31.21.52
 172.31.90.70
