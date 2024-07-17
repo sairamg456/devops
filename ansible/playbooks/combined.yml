@@ -1,34 +1,55 @@
 ---
 - name: install lamp server in radhat
-  hosts: RedHat
-  vars:
-    info_page_path: /var/www/html/info.php
+  hosts: redhat
   become: true
   tasks:
-    - name: install httpd server
-      ansible.builtin.package:
-        name: "{{ package_name }}"
+    - name: install apache server
+      yum:
+        name: httpd
         state: present
-    - name: enable and start httpd
+    - name: enable and start apache
       ansible.builtin.systemd:
-        name: "{{ package_name }}"
+        name: httpd
         enabled: yes
         state: started
-    - name: install httpd php server
-      ansible.builtin.package:
-        name: "{{ item }}"
+    - name: install php
+      yum:
+        name:
+          - php
         state: present
-        loop: "{{ php_packages }}"
       notify: 
         - restart apache
+    - name: copy info php
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+      notify: 
+        - restart apache
+    - name: apache install
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: yes
+        state: present
+      notify: 
+        - restart apache2
+    - name: install php
+      ansible.builtin.apt:
+        name:
+          - php
+          - libapache2-mod-php
+        state: present
     - name: copy php info.php
       ansible.builtin.copy:
         src: info.php
-        dest: "{{ info_page_path }}"
+        dest: /var/www/html/info.php
       notify: 
-        - restart apache
+        - restart apache2
   handlers:
     - name: restart apache
-      ansible.builtin.systemd:
-        name: "{{ package_name }}"
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+    - name: restart apache2
+      ansible.builtin.service:
+        name: apache2
         state: restarted
