@@ -8,7 +8,7 @@
         name: httpd
         state: present
     - name: enable and start apache
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: httpd
         enabled: yes
         state: started
