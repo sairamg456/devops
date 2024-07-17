@@ -5,7 +5,7 @@
   vars:
     info_php_path: /var/www/html/info.php
   tasks:
-    - name: install apache server
+    - name: install httpd
       ansible.builtin.package:
         name: "{{ package_name }}"
         state: present
