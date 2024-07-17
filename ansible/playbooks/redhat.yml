@@ -3,14 +3,12 @@
   hosts: RedHat
   become: true
   tasks:
-    - name: install httpd
+    - name: install apache server
       yum:
         name: httpd
         state: present
-      notify: 
-        - restart httpd
-    - name: enable apache
-      aansible.builtin.systemd_service:
+    - name: enable and start apache
+      ansible.builtin.systemd_service:
         name: httpd
         enabled: yes
         state: started
@@ -20,14 +18,16 @@
           - php
           - libapache2-mod-php
         state: present
+      notify: 
+        - restart apache
     - name: copy info php
       ansible.builtin.copy:
         src: info.php
         dest: /var/www/html/info.php
       notify: 
-        - restart httpd
+        - restart apache
   handlers:
-    - name: restart httpd
+    - name: restart apache
       ansible.builtin.service:
         name: httpd
-        state: restarted 
+        state: restarted
