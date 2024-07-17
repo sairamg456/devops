@@ -1,0 +1,33 @@
+---
+- name: install lamp server in radhat
+  hosts: RedHat
+  become: true
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: present
+      notify: 
+        - restart httpd
+    - name: enable apache
+      ansible.builtin.systemd:
+        name: httpd
+        enable: yes
+        state: started
+    - name: install php
+      yum:
+        name:
+          - php
+          - libapache2-mod-php
+        state: present
+    - name: copy info php
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html/info.php
+      notify: 
+        - restart httpd
+  handlers:
+    - name: restart httpd
+      ansible.builtin.service:
+        name: httpd
+        state: restarted 
