@@ -16,7 +16,6 @@
       yum:
         name:
           - php
-          - libapache2-mod-php
         state: present
       notify: 
         - restart apache
