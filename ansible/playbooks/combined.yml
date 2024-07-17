@@ -7,7 +7,7 @@
   tasks:
     - name: install httpd server
       yum:
-        name: "{{ pakage_name }}"
+        name: "{{ package_name }}"
         state: present
       when: ansible_facts ['os_family'] == 'RedHat'
     - name: enable and start httpd
