@@ -1,11 +1,9 @@
 [Ubuntu]
-172.31.21.52 package_name=apache2
-172.31.24.88
+172.31.21.52 package_name=apache2 php_packages= '["php", "libapache2-mod-php"]'
 
 [RedHat]
-172.31.90.70 package_name=httpd
+172.31.90.70 package_name=httpd php_packages= '["php"]'
 
 [webserver]
 172.31.21.52
-172.31.24.88
 172.31.90.70
