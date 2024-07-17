@@ -16,6 +16,7 @@
     - name: debug apache installed
       ansible.builtin.debug:
         msg: "installed apache server using {{ package_name }}"
+        verbosity: 1
     - name: enable and start apache
       ansible.builtin.systemd:
         name: "{{ package_name }}"
@@ -24,6 +25,7 @@
     - name: debug apache services
       ansible.builtin.debug:
         msg: "Enabled and started apache services"
+        verbosity: 1
     - name: install php
       ansible.builtin.package:
         name: "{{ item }}"
@@ -34,6 +36,7 @@
     - name: debug php installed
       ansible.builtin.debug:
         msg: "installed php package using {{ php_packages }}"
+        verbosity: 1
     - name: copy info php
       ansible.builtin.copy:
         src: info.php
@@ -43,6 +46,7 @@
     - name: debug create path
       ansible.builtin.debug:
         msg: "created info at {{ info_php_path }}"
+        verbosity: 1
   handlers:
     - name: restart apache
       ansible.builtin.service:
