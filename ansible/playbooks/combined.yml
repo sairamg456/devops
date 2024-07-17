@@ -1,6 +1,6 @@
 ---
 - name: install lamp server in radhat
-  hosts: webserver
+  hosts: all
   vars:
     info_page_path: /var/www/html/info.php
   become: true
@@ -14,7 +14,7 @@
         name: "{{ package_name }}"
         enabled: yes
         state: started
-    - name: install php
+    - name: install httpd php server
       ansible.builtin.package:
         name: "{{ item }}"
         state: present
