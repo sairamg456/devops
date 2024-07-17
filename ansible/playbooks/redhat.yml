@@ -10,9 +10,9 @@
       notify: 
         - restart httpd
     - name: enable apache
-      ansible.builtin.systemd:
+      aansible.builtin.systemd_service:
         name: httpd
-        enable: yes
+        enabled: yes
         state: started
     - name: install php
       yum:
