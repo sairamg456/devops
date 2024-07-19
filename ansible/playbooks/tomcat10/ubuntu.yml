@@ -74,7 +74,15 @@
     - name: configure the tomcat users xml
       ansible.builtin.template:
         src: tomcat-users.xml.j2
-        dest: /opt/tomcat/latest/conf/tomcat-users.xml
+        dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
+    - name: allow all for manager app
+      ansible.builtin.template:
+        src: context.xml.j2
+        dest: "{{ homedir }}/latest/webapps/manager/META-INF/context.xml"
+    - name: allow all for host manager app
+      ansible.builtin.template:
+        src: context.xml.j2
+        dest: "{{ homedir }}/latest/webapps/manager/host-manager/META-INF/context.xml"
   handlers: 
     - name: reload daemon
       ansible.builtin.systemd:
