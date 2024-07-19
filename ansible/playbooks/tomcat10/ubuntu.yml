@@ -51,6 +51,13 @@
         recurse: yes
         owner: "{{ user }}"
         group: "{{ group }}"
+    - name: add execute permissions for all tomcat shell scripts
+      ansible.builtin.file:
+        path: "{{ homedir }}/latest/bin/*.sh"
+        mode: '0755'
+        recurse: yes
+        owner: "{{ user }}"
+        group: "{{ group }}"
       
 
         
