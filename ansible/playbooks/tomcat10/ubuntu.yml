@@ -9,6 +9,8 @@
     shell: /bin/false
     tomcat_major_version: 10
     tomcat_version: 10.1.26
+    tomcat_user_name: admin
+    tomcat_user_pwd: admin
   become: true
   tasks:
     - name: Install Java
@@ -69,6 +71,10 @@
         name: tomcat
         enabled: yes
         state: started
+    - name: configure the tomcat users xml
+      ansible.builtin.template:
+        src: tomcat-users.xml.j2
+        dest: /opt/tomcat/latest/conf/tomcat-users.xml
   handlers: 
     - name: reload daemon
       ansible.builtin.systemd:
