@@ -40,6 +40,11 @@
         owner: "{{ user }}"
         group: "{{ group }}"
         creates: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
+    - name: Create a symbolic link
+      ansible.builtin.file:
+        src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
+        dest: "{{ homedir }}/latest"
+        state: link
       
 
         
