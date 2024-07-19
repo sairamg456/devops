@@ -7,6 +7,8 @@
     user: tomcat
     homedir: /opt/tomcat
     shell: /bin/false
+    tomcat_major_version: 10
+    tomcat_version: 10.1.26
   become: true
   tasks:
     - name: Install Java
@@ -26,8 +28,10 @@
         home: "{{ homedir }}"
         shell: "{{ shell }}"
         state: present
-
-
+    - name: download tomcat
+      ansible.builtin.get_url:
+        url: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
       
 
         
