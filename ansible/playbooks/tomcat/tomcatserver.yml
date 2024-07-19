@@ -59,17 +59,6 @@
       ansible.builtin.template:
         src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
-      notify:
-        - reload daemon
-    - name: ensure enable and run tomcat
-      ansible.builtin.systemd:
-        - name: tomcat
-          enabled: yes
-          state: started
-  handlers:
-    - name: reload daemon
-      ansible.builtin.systemd:
-        daemon_reload: yes
       
 
         
