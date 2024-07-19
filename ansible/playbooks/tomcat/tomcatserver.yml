@@ -12,53 +12,7 @@
       ansible.builtin.group:
         name: "{{ group }}"
         state: present
-    - name: create tomcate user and homedir
-      ansible.builtin.user:
-        name: "{{ user }}"
-        group: "{{ group }}"
-        create_home: yes
-        home: "{{ homedir }}"
-        shell: "{{ shell }}"
-        state: present
-    - name: download tomcat
-      ansible.builtin.get_url:
-        url: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
-        dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
-    - name: find if tomacat file is extracted
-      ansible.builtin.stat:
-        path: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}/LICENSE"
-        register: license_info
-    - name: extract tomcat tar file
-      ansible.builtin.unarchive:
-        src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
-        dest: "{{ homedir }}"
-        remote_src: yes
-        owner: "{{ user }}"
-        group: "{{ group }}"
-        creates: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
-      when: not license_info.stat.exists
-    - name: Create a symbolic link
-      ansible.builtin.file:
-        src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
-        dest: "{{ homedir }}/latest"
-        state: link
-    - name: change the ownership of tomcat directory
-      ansible.builtin.file:
-        path: "{{ homedir }}"
-        recurse: yes
-        owner: "{{ user }}"
-        group: "{{ group }}"
-    - name: add execute permissions for all tomcat shell scripts
-      ansible.builtin.file:
-        path: "{{ homedir }}/latest/bin/*.sh"
-        mode: '0755'
-        recurse: yes
-        owner: "{{ user }}"
-        group: "{{ group }}"
-    - name: Creating SystemD Unit File
-      ansible.builtin.template:
-        src: tomcat.service.j2
-        dest: /etc/systemd/system/tomcat.service
+
       
 
         
