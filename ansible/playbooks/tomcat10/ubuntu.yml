@@ -13,15 +13,23 @@
     tomcat_user_pwd: admin
   become: true
   tasks:
+    - name: check if the playbook is being executed on supported OS
+      ansible.builtin.fail: 
+        msg: this playbook is designed to run for Ubuntu
+      when: ansible_facts['distribution'] != "Ubuntu"
     - name: Install Java
       ansible.builtin.apt:
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+      tags: 
+        - java package
     - name: create tomcat group
       ansible.builtin.group:
         name: "{{ group }}"
         state: present
+      tags: 
+        - tomcat user group
     - name: create tomcate user
       ansible.builtin.user:
         name: "{{ user }}"
@@ -30,10 +38,14 @@
         home: "{{ homedir }}"
         shell: "{{ shell }}"
         state: present
+      tags: 
+        - tomcat user
     - name: download tomcat
       ansible.builtin.get_url:
         url: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
         dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+      tags: 
+        - download tomcat
     - name: extract tomcat tar file
       ansible.builtin.unarchive:
         src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
@@ -42,17 +54,23 @@
         owner: "{{ user }}"
         group: "{{ group }}"
         creates: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
+      tags: 
+        - extract tomcat
     - name: Create a symbolic link
       ansible.builtin.file:
         src: "{{ homedir }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ homedir }}/latest"
         state: link
+      tags: 
+        - symbolic
     - name: change the ownership of tomcat directory
       ansible.builtin.file:
         path: "{{ homedir }}"
         recurse: yes
         owner: "{{ user }}"
         group: "{{ group }}"
+      tags: 
+        - tomcat config
     - name: add execute permissions for all tomcat shell scripts
       ansible.builtin.file:
         path: "{{ homedir }}/latest/bin/*.sh"
@@ -60,29 +78,41 @@
         recurse: yes
         owner: "{{ user }}"
         group: "{{ group }}"
+      tags: 
+        - tomcat config
     - name: Creating SystemD Unit File
       ansible.builtin.template:
         src: tomcat.service.j2
         dest: /etc/systemd/system/tomcat.service
       notify:
         - reload daemon
+      tags: 
+        - tomcat config
     - name: ensure tomcat is enable and runing
       ansible.builtin.systemd:
         name: tomcat
         enabled: yes
         state: started
+      tags: 
+        - tomcat config
     - name: configure the tomcat users xml
       ansible.builtin.template:
         src: tomcat-users.xml.j2
         dest: "{{ homedir }}/latest/conf/tomcat-users.xml"
+      tags: 
+        - tomcat config
     - name: allow all for manager app
       ansible.builtin.template:
         src: context.xml.j2
         dest: "{{ homedir }}/latest/webapps/manager/META-INF/context.xml"
+      tags: 
+        - tomcat config
     - name: allow all for host manager app
       ansible.builtin.template:
         src: context.xml.j2
         dest: "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
+      tags: 
+        - tomcat config
   handlers: 
     - name: reload daemon
       ansible.builtin.systemd:
