@@ -82,7 +82,7 @@
     - name: allow all for host manager app
       ansible.builtin.template:
         src: context.xml.j2
-        dest: "{{ homedir }}/latest/webapps/manager/host-manager/META-INF/context.xml"
+        dest: "{{ homedir }}/latest/webapps/host-manager/META-INF/context.xml"
   handlers: 
     - name: reload daemon
       ansible.builtin.systemd:
