@@ -1,6 +1,8 @@
 ---
 - name: install tomcat server
   hosts: webserver
+  vars:
+  java_package: openjdk-11-jdk
   become: true
   tasks:
     - name: Install Java
