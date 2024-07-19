@@ -1,8 +1,3 @@
 ---
-java_package: openjdk-11-jdk 
-group: tomcat
-user: tomacat
-homedir: /opt/tomcat
-shell: /bin/false
-tomcat_version: 10.1.26
-tomcat_major_version: 10
+java_package: openjdk-11-jdk
+
