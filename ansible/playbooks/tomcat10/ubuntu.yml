@@ -3,6 +3,10 @@
   hosts: webserver
   vars:
     java_package: openjdk-11-jdk
+    group: tomcat
+    user: tomcat
+    homedir: /opt/tomcat
+    shell: /bin/false
   become: true
   tasks:
     - name: Install Java
@@ -10,6 +14,19 @@
         name: "{{ java_package }}"
         update_cache: yes
         state: present
+    - name: create tomcat group
+      ansible.builtin.group:
+        name: "{{ group }}"
+        state: present
+    - name: create tomcate user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        group: "{{ group }}"
+        create_home: yes
+        home: "{{ homedir }}"
+        shell: "{{ shell }}"
+        state: present
+
 
       
 
