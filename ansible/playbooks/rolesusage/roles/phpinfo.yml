@@ -1,0 +1,6 @@
+---
+- name: install phpinfo 
+  hosts: all
+  become: true
+  roles:
+    - phpinfo
