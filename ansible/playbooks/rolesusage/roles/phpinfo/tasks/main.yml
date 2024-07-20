@@ -4,7 +4,7 @@
     msg: this playbook is designed to run for Ubuntu and RedHat
   when: ansible_facts['distribution'] != "Ubuntu" and ansible_facts['distribution'] != "RedHat"
 - name: include OS specific cars
-  include_vars: "{{ ansible_facts['distribution'] }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_facts['distribution'] }}.yml"
 - name: install httpd
   ansible.builtin.package:
     name: "{{ package_name }}"
