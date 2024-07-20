@@ -1,0 +1,14 @@
+---
+java_package_redhat: java-11-openjdk
+java_package_ubuntu: openjdk-11-jdk
+group: tomcat
+user: tomcat
+homedir: /opt/tomcat
+shell: /bin/false
+tomcat_major_version: 10
+tomcat_version: 10.1.26
+tomcat_context_valve_allow: ".*"
+tomcat_user_name: admin
+tomcat_user_pwd: admin
+java_path_ubuntu: /usr/lib/jvm/java-11-openjdk-amd64
+java_path_redhat: /usr/lib/jvm/jre-openjdk

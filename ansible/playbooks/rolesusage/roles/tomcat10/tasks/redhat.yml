@@ -1,0 +1,7 @@
+---
+- name: Install Java
+  ansible.builtin.yum:
+      name: "{{ java_package_redhat }}"
+      state: present
+  tags: 
+    - java package
