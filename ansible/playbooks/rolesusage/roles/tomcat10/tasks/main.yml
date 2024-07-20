@@ -6,7 +6,7 @@
 - name: run ubuntu specific tasks
   ansible.builtin.include_tasks:
     file: ubuntu.yml
-  when: ansible_fact['distribution'] == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
 - name: run redhat specidic tasks
   ansible.builtin.include_tasks:
     file: redhat.yml
