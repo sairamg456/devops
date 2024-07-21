@@ -1,0 +1,39 @@
+---
+- name: check if the playbook is being executed on supported OS
+  ansible.builtin.fail: 
+    msg: this playbook is designed to run for Ubuntu
+  when: ansible_facts['distribution'] != "Ubuntu"
+- name: install dotnet, unzip
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    update_cache: yes
+    state: present
+- name: download zip file
+  ansible.builtin.get_url:
+    url: "{{ source_path }}"
+    dest: "{{ dest_path }}"
+- name: create nop directory
+  ansible.builtin.file:
+    path: "{{ nop_path }}"
+    state: directory
+    mode: '0755'
+- name: unzip nopCommerce
+  ansible.builtin.unarchive:
+    src: "{{ dest_path }}"
+    dest: "{{ nop_path }}"
+    remote_src: yes
+- name: create bin directory
+  ansible.builtin.file:
+    path: "{{ bin }}"
+    state: directory
+    mode: '0755'
+- name: create logs directory
+  ansible.builtin.file:
+    path: "{{ logs }}"
+    state: directory
+    mode: '0755'
+- name: run the nopCommerce
+  ansible.builtin.shell:
+    cmd: nohup dotnet Nop.Web.dll --urls "http://0.0.0.0:5000" &
+    chdir: "{{ nop_path }}"
+    executable: "/bin/bash"
