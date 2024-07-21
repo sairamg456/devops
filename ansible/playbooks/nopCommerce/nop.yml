@@ -49,3 +49,11 @@
       ansible.builtin.shell:
         cmd: dotnet Nop.Web.dll --urls "http://0.0.0.0:5000"
         chdir: "{{ nop_path }}"
+    - name: Ensure NopCommerce is running
+      shell: pgrep -f Nop.Web.dll
+      register: nop_running
+      failed_when: nop_running.rc != 0
+      retries: 3
+      delay: 10
+      until: nop_running.rc == 0
+      tags: verify_nop
