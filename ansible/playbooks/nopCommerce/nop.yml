@@ -1,0 +1,50 @@
+---
+- name: install nopCommerce
+  hosts: all
+  become: true
+  vars:
+    packages:
+      - dotnet-sdk-8.0
+      - unzip
+    source_path: https://github.com/nopSolutions/nopCommerce/releases/download/release-4.70.1/nopCommerce_4.70.1_NoSource_linux_x64.zip
+    dest_path: /tmp/nopCommerce_4.70.1_NoSource_linux_x64.zip
+    nop_path: ./nop
+    bin: ./nop/bin
+    logs: ./nop/logs
+  tasks:
+    - name: check if the playbook is being executed on supported OS
+      ansible.builtin.fail: 
+        msg: this playbook is designed to run for Ubuntu
+      when: ansible_facts['distribution'] != "Ubuntu"
+    - name: install dotnet, unzip
+      ansible.builtin.apt:
+        name: "{{ packages }}"
+        update_cache: yes
+        state: present
+    - name: download zip file
+      ansible.builtin.get_url:
+        url: "{{ source_path }}"
+        dest: "{{ dest_path }}"
+    - name: create nop directory
+      ansible.builtin.file:
+        path: "{{ nop_path }}"
+        state: directory
+        mode: '0755'
+    - name: unzip nopCommerce
+      ansible.builtin.unarchive:
+        src: "{{ dest_path }}"
+        dest: "{{ nop_path }}"
+    - name: create bin directory
+      ansible.builtin.file:
+        path: "{{ bin }}"
+        state: directory
+        mode: '0755'
+    - name: create logs directory
+      ansible.builtin.file:
+        path: "{{ logs }}"
+        state: directory
+        mode: '0755'
+    - name: run the nopCommerce
+      ansible.builtin.shell: dotnet Nop.Web.dll --urls "http://0.0.0.0:5000"
+      args:
+        chdir: "{{ nop_path }}"
