@@ -47,7 +47,7 @@
         mode: '0755'
     - name: run the nopCommerce
       ansible.builtin.shell:
-        cmd: nohup dotnet Nop.Web.dll --urls "http://0.0.0.0:5000" &> /opt/nop/nop.log &
+        cmd: nohup dotnet Nop.Web.dll --urls "http://0.0.0.0:5000" &
         chdir: "{{ nop_path }}"
         executable: "/bin/bash"
     
