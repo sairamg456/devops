@@ -47,7 +47,7 @@
         mode: '0755'
     - name: run the nopCommerce
       ansible.builtin.shell:
-        cmd: tmux new-session -d -s nopcommerce 'dotnet Nop.Web.dll --urls "http://0.0.0.0:5000"'
+        cmd: tmux new-session -d -s 'dotnet Nop.Web.dll --urls "http://0.0.0.0:5000"'
         chdir: "{{ nop_path }}"
         executable: "/bin/bash"
     
