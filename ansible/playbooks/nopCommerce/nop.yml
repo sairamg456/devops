@@ -11,6 +11,7 @@
     nop_path: /nop
     bin: /nop/bin
     logs: /nop/logs
+    connection_string: "Server=localhost;Database=nopcommerce_db;Uid=nop_user;Pwd=your_password;"
   tasks:
     - name: check if the playbook is being executed on supported OS
       ansible.builtin.fail: 
@@ -50,4 +51,10 @@
         cmd: nohup dotnet Nop.Web.dll --urls "http://0.0.0.0:5000" &
         chdir: "{{ nop_path }}"
         executable: "/bin/bash"
+    - name: Update nopCommerce database connection string
+      lineinfile:
+        path: "{{ nop_path }}/App_Data/appsettings.json"
+        regexp: '"ConnectionString": ".*"'
+        line: '"ConnectionString": "{{ connection_string }}"'
+        backup: yes
     
