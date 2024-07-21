@@ -34,6 +34,7 @@
       ansible.builtin.unarchive:
         src: "{{ dest_path }}"
         dest: "{{ nop_path }}"
+        remote_src: yes
     - name: create bin directory
       ansible.builtin.file:
         path: "{{ bin }}"
