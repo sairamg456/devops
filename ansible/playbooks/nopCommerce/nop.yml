@@ -8,9 +8,9 @@
       - unzip
     source_path: https://github.com/nopSolutions/nopCommerce/releases/download/release-4.70.1/nopCommerce_4.70.1_NoSource_linux_x64.zip
     dest_path: /tmp/nopCommerce_4.70.1_NoSource_linux_x64.zip
-    nop_path: ./nop
-    bin: ./nop/bin
-    logs: ./nop/logs
+    nop_path: /nop
+    bin: /nop/bin
+    logs: /nop/logs
   tasks:
     - name: check if the playbook is being executed on supported OS
       ansible.builtin.fail: 
@@ -46,7 +46,6 @@
         state: directory
         mode: '0755'
     - name: run the nopCommerce
-      ansible.builtin.shell: |
-        "dotnet {{ nop_path }}/Nop.Web.dll --urls "http://0.0.0.0:5000""
-      args:
+      ansible.builtin.shell:
+        cmd: dotnet Nop.Web.dll --urls "http://0.0.0.0:5000"
         chdir: "{{ nop_path }}"
