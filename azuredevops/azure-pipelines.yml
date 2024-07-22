@@ -1,0 +1,21 @@
+trigger:
+  - main
+  - develop
+
+pool: ubuntu-latest
+stages:
+  - stage: stage-1
+    displayName: first stage
+    jobs:
+      - job: buildpackage
+        displayName: build package
+        steps:
+          - task: VSBuild@1
+            displayName: Build
+            timeoutInMinutes: 120
+            inputs:
+                solution: '**\*.sln'
+             
+            
+            
+        
