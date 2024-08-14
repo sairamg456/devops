@@ -15,7 +15,6 @@ spec:
       labels:
         app: jenkins
     spec:
-      minReadySeconds: 5
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts-jdk17
