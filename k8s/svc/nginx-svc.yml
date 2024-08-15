@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     app: nginx
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: nginx-svc
       port: 80
