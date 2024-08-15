@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: alpine
-      image: alpine:3
+      image: ubuntu:24.04
       command:
         - sleep
         - 1d
