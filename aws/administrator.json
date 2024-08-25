@@ -1,0 +1,10 @@
+{
+    "Version": "2024-08-23",
+    "Statement": [
+        {
+        "Resource": "*",
+        "Type": "*",
+        "Effect": "Allow"
+    }
+    ]
+    }

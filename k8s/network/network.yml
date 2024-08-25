@@ -1,0 +1,66 @@
+# This policy allows traffic from namespace-b to any pod in namespace-a.
+# Network Policy in namespace-a:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-namespace-b
+  namespace: namespace-a
+spec:
+  podSelector: {}  # Applies to all pods in namespace-a
+  ingress:
+    - from:
+       - namespaceSelector:
+          matchLabels:
+            name: namespace-b  # Allows traffic from namespace-b
+
+# Network Policy in namespace-b:
+# Similarly, this policy allows traffic from namespace-a to any pod in namespace-b
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-namespace-a
+  namespace: namespace-b
+spec:
+  podSelector: {}  # Applies to all pods in namespace-b
+  ingress:
+    - from:
+       - namespaceSelector:
+          matchLabels:
+            name: namespace-a  # Allows traffic from namespace-a
+
+
+# Network Policy in namespace-a:
+# This policy blocks all incoming traffic from namespace-b to any pod in namespace-a.
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-namespace-b
+  namespace: namespace-a
+spec:
+  podSelector: {}  # Applies to all pods in namespace-a
+  ingress:
+    - from:
+       - namespaceSelector:
+          matchLabels:
+            name: namespace-b  # Blocks traffic from namespace-b
+
+#Network Policy in namespace-b:
+#Similarly, this policy blocks all incoming traffic from namespace-a to any pod in namespace-b.
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-namespace-a
+  namespace: namespace-b
+spec:
+  podSelector: {}  # Applies to all pods in namespace-b
+  ingress:
+    - from:
+       - namespaceSelector:
+          matchLabels:
+            name: namespace-a  # Blocks traffic from namespace-a

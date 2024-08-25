@@ -1,0 +1,16 @@
+{
+"name": "sai ramudu",
+"role": "devops engineer",
+"work exp": "6 years",
+"cell": "9505818151",
+"email": "sairamg456@gmail.com",
+"compeny": "Infosys",
+"Skills": {
+    "networking": ["L2 switches", "L3 switches", "wireless", "firewall", "ad"],
+    "relase engineering": ["jenkins", "azure devops"],
+    "devops engineer": ["jenkins", "github", "ansible", "terraform", "docker", "kubernetes", "elastic stack"],
+    "cloud": "aws"
+}
+
+}
+
