@@ -1,0 +1,91 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: order-deploy
+  labels:
+    app: order
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: order
+  revisionHistoryLimit: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: order-pod
+      labels:
+        app: order
+        version: 1.0.0
+    spec:
+      containers:
+        - name: order
+          image: sairamg456/order:1.0
+          ports: 
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-deploy
+  labels:
+    app: catalog
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catalog
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: catalog-pod
+      labels:
+        app: catalog
+        version: 1.0.0
+    spec:
+      containers:
+        - name: catalog
+          image: sairamg456/catlog:1.0
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-deploy
+  labels:
+    app: cart
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cart
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template: 
+    metadata:
+      name: cart-pod
+      labels:
+        app: cart
+        version: 1.0.0
+    spec:
+      containers:
+        - name: cart
+          image: sairamg456/cart:1.0
+          ports:
+            - containerPort: 80

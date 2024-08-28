@@ -1,0 +1,26 @@
+html code:
+order: <!DOCTYPE html> <html> <body style="background-color:powderblue;"> 
+<h1>Welcome to Load Balancing</h1> 
+<p>This is for learning</p> </body>
+ </html>
+
+ catlog: <!DOCTYPE html> <html> <body style="background-color:yellow;"> 
+    <h1>Welcome to Load Balancing</h1> 
+    <p>This is for learning</p> </body>
+     </html>
+
+cart: <!DOCTYPE html> <html> <body style="background-color:green;"> 
+    <h1>Welcome to Load Balancing</h1> 
+    <p>This is for learning</p> </body>
+     </html>
+
+Docker image:
+FROM nginx:1.27
+COPY ./index.html /usr/share/nginx/html/index.html
+
+Docker images:
+
+sairamg456/order:1.0
+sairamg456/cart:1.0
+sairamg456/catlog:1.0
+
